@@ -7,7 +7,7 @@
 ### You can extract src folder to your project main folder or simply just install lpk package file in Lazarus and then use BFI unit.
 
 ```Pascal
-program Example;
+program Caesar_Cipher;
 
 uses
   BFI;
