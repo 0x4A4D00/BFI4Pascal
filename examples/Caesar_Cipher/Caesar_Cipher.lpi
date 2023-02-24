@@ -10,7 +10,7 @@
         <MainUnitHasScaledStatement Value="False"/>
       </Flags>
       <SessionStorage Value="InProjectDir"/>
-      <Title Value="test"/>
+      <Title Value="Caesar_Cipher"/>
       <UseAppBundle Value="False"/>
       <ResourceType Value="res"/>
     </General>
@@ -31,7 +31,7 @@
     </RequiredPackages>
     <Units>
       <Unit>
-        <Filename Value="test.lpr"/>
+        <Filename Value="Caesar_Cipher.lpr"/>
         <IsPartOfProject Value="True"/>
       </Unit>
     </Units>
@@ -40,7 +40,7 @@
     <Version Value="11"/>
     <PathDelim Value="\"/>
     <Target>
-      <Filename Value="test"/>
+      <Filename Value="Caesar_Cipher"/>
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>
