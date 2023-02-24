@@ -28,7 +28,7 @@ end.
 
 | Define | Usage |
 | ------ | ------ |
-| CosnoleMode | If you are working in console environment you can define this for ignore eol (#13#10) at input.   |
+| ConsoleMode | If you are working in console environment you can define this for ignore eol (#13#10) at input.   |
 | Debug | For debugging :) |
 
 ## License
