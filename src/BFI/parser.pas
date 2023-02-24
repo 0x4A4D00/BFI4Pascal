@@ -75,14 +75,24 @@ end;
 procedure MoveForward;
 begin
 
-  Inc(MemoryCounter);
+
+
+  if MemoryCounter = 10000 then
+    MemoryCounter := 0
+  else
+    Inc(MemoryCounter);
 
 end;
 
 procedure MoveBackward;
 begin
 
-  Dec(MemoryCounter);
+
+
+  if MemoryCounter = 0 then
+    MemoryCounter := 10000
+  else
+    Dec(MemoryCounter);
 
 end;
 
@@ -109,11 +119,6 @@ begin
 
     end;
 
-
-
-    //if LoopCounter = 0 then
-    //  Inc(Point);
-
   end
   else
   begin
@@ -127,8 +132,9 @@ end;
 procedure LoopEnd;
 begin
 
-  //if NOT(LoopCounter = 0) then
   Dec(LoopCounter);
+
+
 
   Point := LoopLastPos[LoopCounter];
 
@@ -155,7 +161,12 @@ begin
 
   Memory[MemoryCounter] := _input[InputCounter];
 
-  Inc(InputCounter);
+  if InputCounter = 10000 then
+    InputCounter := 0
+  else
+    Inc(InputCounter);
+
+
 
 end;
 
