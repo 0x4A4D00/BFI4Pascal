@@ -1,11 +1,9 @@
 # BFI4Pascal
----
 ### BFI4P is a simple brain f*ck interpreter for Pascal,that can be used in Standard Pascal, Objpas(FPC) and Delphi.
 
 <br />
 
 ## Usage
----
 ### You can extract src folder to your project main folder or simply just install lpk package file in Lazarus and then use BFI unit.
 
 ```Pascal
@@ -25,7 +23,6 @@ end.
 
 
 # Defines
----
 
 <br />
 
