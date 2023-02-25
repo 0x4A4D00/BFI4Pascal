@@ -2,8 +2,6 @@ unit Parser;
 
 interface
 
-
-
 uses
   SysUtils;
 
@@ -25,23 +23,20 @@ type
     Length : Integer;
   end;
 
-  //TCharArray    = array[0..10000] of char;
   TIntegerArray = array[0..10000] of integer;
 
 
 var
   Memory        : TCharArray;
-  Input        : TCharArray;
-  Output       : TCharArray;
-  Code         : TCharArray;
+  Input         : TCharArray;
+  Output        : TCharArray;
+  Code          : TCharArray;
   LoopLastPos   : TIntegerArray;
   Point         ,
   MemoryCounter ,
   InputCounter  ,
   LoopCounter   : integer;
-  InputHandler : TInputHandler;
-
-
+  InputHandler  : TInputHandler;
 
 implementation
 
@@ -57,7 +52,9 @@ begin
     ']' : LoopEnd;
     ',' : GetInput;
     '.' : SetOutput;
-
+    {$ifdef Debugging}
+    otherwise if NOT(Code.Text[Number] = #00) then raise Exception.Create(Format('Unknown character[%s] at:%d', [Code.Text[Number], Number + 1]));
+    {$endif}
   end;
 
 end;
@@ -138,10 +135,6 @@ var
   Temp : string;
 begin
 
-  {$ifdef Debugging}
-  if _input[InputCounter] = #00 then raise Exception.Create(Format('Input argument is empty but input needed in %d', [Point]));
-  {$endif}
-
   { For ignoring eol in console mode}
   {$ifdef ConsoleMode}
   if input[InputCounter] = #13 then
@@ -159,7 +152,11 @@ begin
     Input.Length := Length(Temp);
   end;
 
-    Memory.Text[MemoryCounter] := Input.Text[InputCounter];
+  {$ifdef Debugging}
+  if Input.Text[InputCounter] = #00 then raise Exception.Create(Format('Input argument is empty but input needed at:%d', [Point + 1]));
+  {$endif}
+
+  Memory.Text[MemoryCounter] := Input.Text[InputCounter];
 
   if InputCounter = 10000 then
     InputCounter := 0
