@@ -5,47 +5,52 @@ interface
 uses
   Parser;
 
-function Interpret(Code,Input : string): string;
-function Interpret(Code : string): string;
+function Interpret(ACode: string; AInput: string = ''): string;
+function Interpret(ACode: string; AInputHandler: TInputHandler): string;
 
 implementation
 
 procedure InitializeData;
 begin
-
   Memory        := Default(TCharArray);
-  _input        := Default(TCharArray);
-  _output       := Default(TCharArray);
+  Input         := Default(TCharArray);
+  Output        := Default(TCharArray);
   LoopLastPos   := Default(TIntegerArray);
   MemoryCounter := 0;
   InputCounter  := 0;
   LoopCounter   := 0;
-
+  InputHandler  := nil;
 end;
 
-function Interpret(Code,Input : string): string;
+function Interpret(ACode: string; AInput: string = ''): string;
 begin
-
   InitializeData;
-  _code  := Code;
-  _input := Input;
+  Code.Text    := ACode;
+  Code.Length  := Length(ACode);
 
-  for Point := 0 to Length(Code) do
+  Input.Text   := AInput;
+  Input.Length := Length(AInput);
+
+  for Point := 0 to Length(ACode) do
     Parse(Point);
 
-  Interpret := _output;
+  Interpret := Output.Text;
 end;
 
-function Interpret(Code : string): string;
+function Interpret(ACode: string; AInputHandler: TInputHandler): string;
 begin
-
   InitializeData;
-  _code  := Code;
+  Code.Text    := ACode;
+  Code.Length  := Length(ACode);
 
-  for Point := 0 to Length(Code) do
+  Input.Length := -1;
+
+  InputHandler := AInputHandler;
+
+  for Point := 0 to Length(ACode) do
     Parse(Point);
 
-  Interpret := _output;
+  Interpret := Output.Text;
 end;
 
 end.

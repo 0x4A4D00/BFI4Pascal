@@ -2,6 +2,8 @@ unit Parser;
 
 interface
 
+
+
 uses
   SysUtils;
 
@@ -17,20 +19,27 @@ procedure GetInput;
 procedure SetOutput;
 
 type
-  TCharArray    = array[0..10000] of char;
-  TIntegerArray = array[1..10000] of integer;
+  TInputHandler = function():string;
+  TCharArray    = record
+    Text   : array[0..10000] of char;
+    Length : Integer;
+  end;
+
+  //TCharArray    = array[0..10000] of char;
+  TIntegerArray = array[0..10000] of integer;
 
 
 var
   Memory        : TCharArray;
-  _input        : TCharArray;
-  _output       : TCharArray;
-  _code         : TCharArray;
+  Input        : TCharArray;
+  Output       : TCharArray;
+  Code         : TCharArray;
   LoopLastPos   : TIntegerArray;
   Point         ,
   MemoryCounter ,
   InputCounter  ,
   LoopCounter   : integer;
+  InputHandler : TInputHandler;
 
 
 
@@ -39,7 +48,7 @@ implementation
 procedure Parse(Number : integer);
 begin
 
-  case _Code[Number] of
+  case Code.Text[Number] of
     '+' : Increase;
     '-' : Decrease;
     '>' : MoveForward;
@@ -48,34 +57,29 @@ begin
     ']' : LoopEnd;
     ',' : GetInput;
     '.' : SetOutput;
+
   end;
 
 end;
 
 function ReadNext(): char;
 begin
-  ReadNext := _Code[point];
+  ReadNext := Code.Text[point];
 end;
 
 
 procedure Increase;
 begin
-
-  Inc(Memory[MemoryCounter]);
-
+  Inc(Memory.Text[MemoryCounter]);
 end;
 
 procedure Decrease;
 begin
-
-  Dec(Memory[MemoryCounter]);
-
+  Dec(Memory.Text[MemoryCounter]);
 end;
 
 procedure MoveForward;
 begin
-
-
 
   if MemoryCounter = 10000 then
     MemoryCounter := 0
@@ -86,8 +90,6 @@ end;
 
 procedure MoveBackward;
 begin
-
-
 
   if MemoryCounter = 0 then
     MemoryCounter := 10000
@@ -100,8 +102,7 @@ procedure LoopStart;
 var
   NextChar : char;
 begin
-
-  if Memory[MemoryCounter] = #00 then
+  if Memory.Text[MemoryCounter] = #00 then
   begin
     NextChar := '[';
 
@@ -111,14 +112,9 @@ begin
       NextChar := ReadNext;
 
       if NextChar = '[' then
-      begin
-
         LoopStart;
 
-      end;
-
     end;
-
   end
   else
   begin
@@ -126,23 +122,20 @@ begin
 
     Inc(LoopCounter);
   end;
-
 end;
 
 procedure LoopEnd;
 begin
-
   Dec(LoopCounter);
-
-
 
   Point := LoopLastPos[LoopCounter];
 
   Parse(Point);
-
 end;
 
 procedure GetInput;
+var
+  Temp : string;
 begin
 
   {$ifdef Debugging}
@@ -159,22 +152,25 @@ begin
   end;
   {$endif}
 
-  Memory[MemoryCounter] := _input[InputCounter];
+  if (Input.Length < InputCounter) AND NOT(InputHandler = nil) then
+  begin
+    Temp         := InputHandler();
+    Input.Text   := Temp;
+    Input.Length := Length(Temp);
+  end;
+
+    Memory.Text[MemoryCounter] := Input.Text[InputCounter];
 
   if InputCounter = 10000 then
     InputCounter := 0
   else
     Inc(InputCounter);
 
-
-
 end;
 
 procedure SetOutput;
 begin
-
-  _output += Memory[MemoryCounter];
-
+  Output.Text += Memory.Text[MemoryCounter];
 end;
 
 end.
