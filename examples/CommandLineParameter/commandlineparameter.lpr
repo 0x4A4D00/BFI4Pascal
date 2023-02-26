@@ -5,7 +5,7 @@ program CommandLineParameter;
 {  Description: This is a Pascal code sample for Using Command lIne Parameters with interpreter         }
 {  Author: 0x4A4D                                                                                       }
 {  Run: ./CommandLineParameter '++++++[>++++++++++<-]>+++++.,.' 'B'                                     }
-{  Output: AB                                                                                                     }
+{  Output: AB                                                                                           }
 {                                                                                                       }
 
 uses
