@@ -17,7 +17,8 @@ procedure GetInput;
 procedure SetOutput;
 
 type
-  TInputHandler = function():string;
+  TInputHandler   = function():string;
+  TOutputHandler  = procedure(Output: char);
   TCharArray    = record
     Text   : array[0..10000] of char;
     Length : Integer;
@@ -37,6 +38,7 @@ var
   InputCounter  ,
   LoopCounter   : integer;
   InputHandler  : TInputHandler;
+  OutputHandler : TOutputHandler;
 
 implementation
 
@@ -167,7 +169,10 @@ end;
 
 procedure SetOutput;
 begin
-  Output.Text += Memory.Text[MemoryCounter];
+  if OutputHandler = nil then
+    Output.Text += Memory.Text[MemoryCounter]
+  else
+    OutputHandler(Memory.Text[MemoryCounter]);
 end;
 
 end.

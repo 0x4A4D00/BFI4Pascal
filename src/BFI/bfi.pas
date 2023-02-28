@@ -5,11 +5,10 @@ interface
 uses
   Parser;
 
-function Interpret(ACode: string; AInput: string = ''): string;
-function Interpret(ACode: string; AInputHandler: TInputHandler): string;
-function InterpretFile(FilePath: string; AInput: string = ''): string;
-function InterpretFile(FilePath: string; AInputHandler: TInputHandler): string;
-
+function Interpret(ACode: string; AInput: string = ''; AOutputHandler: TOutputHandler = nil; AWipeLastData : boolean = true): string;
+function Interpret(ACode: string; AInputHandler: TInputHandler; AOutputHandler: TOutputHandler = nil; AWipeLastData : boolean = true): string;
+function InterpretFile(AFilePath: string; AInput: string = ''; AOutputHandler: TOutputHandler = nil; AWipeLastData : boolean = true): string;
+function InterpretFile(AFilePath: string; AInputHandler: TInputHandler; AOutputHandler: TOutputHandler = nil; AWipeLastData : boolean = true): string;
 
 implementation
 
@@ -25,14 +24,18 @@ begin
   InputHandler  := nil;
 end;
 
-function Interpret(ACode: string; AInput: string = ''): string;
+function Interpret(ACode: string; AInput: string = ''; AOutputHandler: TOutputHandler = nil; AWipeLastData : boolean = true): string;
 begin
-  InitializeData;
-  Code.Text    := ACode;
-  Code.Length  := Length(ACode);
+  if AWipeLastData then
+    InitializeData;
 
-  Input.Text   := AInput;
-  Input.Length := Length(AInput);
+  Code.Text     := ACode;
+  Code.Length   := Length(ACode);
+
+  Input.Text    := AInput;
+  Input.Length  := Length(AInput);
+
+  OutputHandler := AOutputHandler;
 
   for Point := 0 to Length(ACode) do
     Parse(Point);
@@ -40,30 +43,34 @@ begin
   Interpret := Output.Text;
 end;
 
-function Interpret(ACode: string; AInputHandler: TInputHandler): string;
+function Interpret(ACode: string; AInputHandler: TInputHandler; AOutputHandler: TOutputHandler = nil; AWipeLastData : boolean = true): string;
 begin
-  InitializeData;
-  Code.Text    := ACode;
-  Code.Length  := Length(ACode);
+  if AWipeLastData then
+    InitializeData;
 
-  Input.Length := -1;
+  Code.Text     := ACode;
+  Code.Length   := Length(ACode);
 
-  InputHandler := AInputHandler;
+  Input.Length  := -1;
+
+  InputHandler  := AInputHandler;
+  OutputHandler := AOutputHandler;
 
   for Point := 0 to Length(ACode) do
     Parse(Point);
 
-  Interpret := Output.Text;
+  if AOutputHandler = nil then
+    Interpret := Output.Text;
 end;
 
-function InterpretFile(FilePath: string; AInput: string = ''): string;
+function InterpretFile(AFilePath: string; AInput: string = ''; AOutputHandler: TOutputHandler = nil; AWipeLastData : boolean = true): string;
 var
   Target    : TextFile;
   Character : char;
   ACode     : string = '';
 begin
 
-  Assign(Target, FilePath);
+  Assign(Target, AFilePath);
 
   try
     reset(Target);
@@ -86,12 +93,16 @@ begin
   finally;
   end;
 
-  InitializeData;
-  Code.Text    := ACode;
-  Code.Length  := Length(ACode);
+  if AWipeLastData then
+    InitializeData;
 
-  Input.Text   := AInput;
-  Input.Length := Length(AInput);
+  Code.Text     := ACode;
+  Code.Length   := Length(ACode);
+
+  Input.Text    := AInput;
+  Input.Length  := Length(AInput);
+
+  OutputHandler := AOutputHandler;
 
   for Point := 0 to Length(ACode) do
     Parse(Point);
@@ -99,13 +110,13 @@ begin
   InterpretFile := Output.Text;
 end;
 
-function InterpretFile(FilePath: string; AInputHandler: TInputHandler): string;
+function InterpretFile(AFilePath: string; AInputHandler: TInputHandler; AOutputHandler: TOutputHandler = nil; AWipeLastData : boolean = true): string;
 var
   Target    : TextFile;
   Character : char;
   ACode     : string = '';
 begin
-  Assign(Target, FilePath);
+  Assign(Target, AFilePath);
 
   try
     reset(Target);
@@ -128,18 +139,22 @@ begin
   finally;
   end;
 
-  InitializeData;
-  Code.Text    := ACode;
-  Code.Length  := Length(ACode);
+  if AWipeLastData then
+    InitializeData;
 
-  Input.Length := -1;
+  Code.Text     := ACode;
+  Code.Length   := Length(ACode);
 
-  InputHandler := AInputHandler;
+  Input.Length  := -1;
+
+  InputHandler  := AInputHandler;
+  OutputHandler := AOutputHandler;
 
   for Point := 0 to Length(ACode) do
     Parse(Point);
 
-  InterpretFile := Output.Text;
+  if AOutputHandler = nil then
+    InterpretFile := Output.Text;
 end;
 
 end.
