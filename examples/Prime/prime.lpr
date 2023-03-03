@@ -4,9 +4,8 @@ program prime;
 {  Title: prime counter                                                                                 }
 {  Description: This is a Pascal code sample for count prime numbers                                    }
 {  Author: 0x4A4D                                                                                       }
-{  BF Code By:Copyright (c) 2002, 2005 by Stefan Partusch                                               }
+{  BF Code By: 2005 Stefan Partusch                                                                     }
 {  https://spartusch.github.io/legacy-website/html_en/bfd.html                                          }
-{                                                                                                       }
 {                                                                                                       }
 
 uses
