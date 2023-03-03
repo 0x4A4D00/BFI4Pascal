@@ -35,4 +35,4 @@ end.
 | Debug | For debugging :) |
 
 ## License
-- Feel free to edit and contribute, this project is license free :)
+- This "Software" is Licensed Under `MIT No Attribution License (MIT-0)`.
