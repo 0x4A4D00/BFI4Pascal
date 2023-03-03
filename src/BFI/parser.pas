@@ -5,7 +5,7 @@ interface
 uses
   SysUtils;
 
-procedure Parse(Number : integer);
+procedure Parse;
 function  ReadNext(): char;
 procedure Increase;
 procedure Decrease;
@@ -17,35 +17,100 @@ procedure GetInput;
 procedure SetOutput;
 
 type
+  TArraySize      = 0..10000;     // 2 bytes
+
   TInputHandler   = function():string;
   TOutputHandler  = procedure(Output: char);
+
   TCharArray    = record
-    Text   : array[0..10000] of char;
+    {$ifdef Mode16}
+    Text   : array[TArraySize] of WideChar;
+    {$else}
+    Text   : array[TArraySize] of char;
+    {$endif}
     Length : Integer;
   end;
 
-  TIntegerArray = array[0..10000] of integer;
-
+  TIntegerArray = array[TArraySize] of integer;
 
 var
-  Memory        : TCharArray;
-  Input         : TCharArray;
-  Output        : TCharArray;
+  Memory        ,
+  Input         ,
+  Output        ,
   Code          : TCharArray;
+
   LoopLastPos   : TIntegerArray;
+
   Point         ,
   MemoryCounter ,
   InputCounter  ,
-  LoopCounter   : integer;
+  LoopCounter   : TArraySize;
+
   InputHandler  : TInputHandler;
   OutputHandler : TOutputHandler;
 
 implementation
 
-procedure Parse(Number : integer);
+procedure Parse;
+{$ifdef OPTIMIZATION}
+var
+  NextChar : char;
+{$endif}
 begin
 
-  case Code.Text[Number] of
+  case Code.Text[Point] of
+    {$ifdef OPTIMIZATION}
+    '+' : Inc(Memory.Text[MemoryCounter]);
+    '-' : Dec(Memory.Text[MemoryCounter]);
+    '>' :
+    begin
+      if MemoryCounter = 10000 then
+        MemoryCounter := 0
+      else
+        Inc(MemoryCounter);
+
+    end;
+    '<' :
+    begin
+      if MemoryCounter = 0 then
+        MemoryCounter := 10000
+      else
+        Dec(MemoryCounter);
+      end;
+    '[' :
+    begin
+      if Memory.Text[MemoryCounter] = #00 then
+      begin
+        NextChar := '[';
+
+        while NOT(NextChar = ']') do
+        begin
+          Inc(Point);
+          NextChar := ReadNext;
+
+          if NextChar = '[' then
+            Parse;
+
+        end;
+      end
+      else
+      begin
+        LoopLastPos[LoopCounter] := Point;
+
+        Inc(LoopCounter);
+      end;
+    end;
+    ']' :
+    begin
+      Dec(LoopCounter);
+
+      Point := LoopLastPos[LoopCounter];
+
+      Parse;
+    end;
+    ',' : GetInput;
+    '.' : SetOutput;
+    {$else}
     '+' : Increase;
     '-' : Decrease;
     '>' : MoveForward;
@@ -54,8 +119,9 @@ begin
     ']' : LoopEnd;
     ',' : GetInput;
     '.' : SetOutput;
+    {$endif}
     {$ifdef Debugging}
-    otherwise if NOT(Code.Text[Number] = #00) then raise Exception.Create(Format('Unknown character[%s] at:%d', [Code.Text[Number], Number + 1]));
+    otherwise if NOT(Code.Text[Point] = #00) then raise Exception.Create(Format('Unknown character[%s] at:%d', [Code.Text[Point], Point + 1]));
     {$endif}
   end;
 
@@ -65,7 +131,6 @@ function ReadNext(): char;
 begin
   ReadNext := Code.Text[point];
 end;
-
 
 procedure Increase;
 begin
@@ -129,24 +194,13 @@ begin
 
   Point := LoopLastPos[LoopCounter];
 
-  Parse(Point);
+  Parse();
 end;
 
 procedure GetInput;
 var
   Temp : string;
 begin
-
-  { For ignoring eol in console mode}
-  {$ifdef ConsoleMode}
-  if input[InputCounter] = #13 then
-  begin
-    Inc(InputCounter);
-
-    input := #00;
-  end;
-  {$endif}
-
   if (Input.Length < InputCounter) AND NOT(InputHandler = nil) then
   begin
     Temp         := InputHandler();

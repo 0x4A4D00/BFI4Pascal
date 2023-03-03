@@ -38,7 +38,7 @@ begin
   OutputHandler := AOutputHandler;
 
   for Point := 0 to Length(ACode) do
-    Parse(Point);
+    Parse;
 
   Interpret := Output.Text;
 end;
@@ -57,7 +57,7 @@ begin
   OutputHandler := AOutputHandler;
 
   for Point := 0 to Length(ACode) do
-    Parse(Point);
+    Parse;
 
   if AOutputHandler = nil then
     Interpret := Output.Text;
@@ -105,7 +105,7 @@ begin
   OutputHandler := AOutputHandler;
 
   for Point := 0 to Length(ACode) do
-    Parse(Point);
+    Parse;
 
   InterpretFile := Output.Text;
 end;
@@ -151,7 +151,7 @@ begin
   OutputHandler := AOutputHandler;
 
   for Point := 0 to Length(ACode) do
-    Parse(Point);
+    Parse;
 
   if AOutputHandler = nil then
     InterpretFile := Output.Text;
