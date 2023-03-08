@@ -5,10 +5,11 @@ interface
 uses
   Parser;
 
-function Interpret(ACode: string; AInput: string = ''; AOutputHandler: TOutputHandler = nil; AWipeLastData : boolean = true): string;
-function Interpret(ACode: string; AInputHandler: TInputHandler; AOutputHandler: TOutputHandler = nil; AWipeLastData : boolean = true): string;
-function InterpretFile(AFilePath: string; AInput: string = ''; AOutputHandler: TOutputHandler = nil; AWipeLastData : boolean = true): string;
-function InterpretFile(AFilePath: string; AInputHandler: TInputHandler; AOutputHandler: TOutputHandler = nil; AWipeLastData : boolean = true): string;
+
+function Interpret(ACode: string; AInput: {$ifdef Mode16}widestring{$else}string{$endif} = ''; AOutputHandler: TOutputHandler = nil; AWipeLastData : boolean = true): {$ifdef Mode16}widestring{$else}string{$endif};
+function Interpret(ACode: string; AInputHandler: TInputHandler; AOutputHandler: TOutputHandler = nil; AWipeLastData : boolean = true): {$ifdef Mode16}widestring{$else}string{$endif};
+function InterpretFile(AFilePath: string; AInput: {$ifdef Mode16}widestring{$else}string{$endif} = ''; AOutputHandler: TOutputHandler = nil; AWipeLastData : boolean = true): {$ifdef Mode16}widestring{$else}string{$endif};
+function InterpretFile(AFilePath: string; AInputHandler: TInputHandler; AOutputHandler: TOutputHandler = nil; AWipeLastData : boolean = true): {$ifdef Mode16}widestring{$else}string{$endif};
 
 implementation
 
@@ -24,7 +25,7 @@ begin
   InputHandler  := nil;
 end;
 
-function Interpret(ACode: string; AInput: string = ''; AOutputHandler: TOutputHandler = nil; AWipeLastData : boolean = true): string;
+function Interpret(ACode: string; AInput: {$ifdef Mode16}widestring{$else}string{$endif} = ''; AOutputHandler: TOutputHandler = nil; AWipeLastData : boolean = true): {$ifdef Mode16}widestring{$else}string{$endif};
 begin
   if AWipeLastData then
     InitializeData;
@@ -40,10 +41,10 @@ begin
   for Point := 0 to Length(ACode) do
     Parse;
 
-  Interpret := Output.Text;
+  Interpret := (Output.Text);
 end;
 
-function Interpret(ACode: string; AInputHandler: TInputHandler; AOutputHandler: TOutputHandler = nil; AWipeLastData : boolean = true): string;
+function Interpret(ACode: string; AInputHandler: TInputHandler; AOutputHandler: TOutputHandler = nil; AWipeLastData : boolean = true): {$ifdef Mode16}widestring{$else}string{$endif};
 begin
   if AWipeLastData then
     InitializeData;
@@ -60,10 +61,10 @@ begin
     Parse;
 
   if AOutputHandler = nil then
-    Interpret := Output.Text;
+    Interpret := (Output.Text);
 end;
 
-function InterpretFile(AFilePath: string; AInput: string = ''; AOutputHandler: TOutputHandler = nil; AWipeLastData : boolean = true): string;
+function InterpretFile(AFilePath: string; AInput: {$ifdef Mode16}widestring{$else}string{$endif} = ''; AOutputHandler: TOutputHandler = nil; AWipeLastData : boolean = true): {$ifdef Mode16}widestring{$else}string{$endif};
 var
   Target    : TextFile;
   Character : char;
@@ -107,10 +108,10 @@ begin
   for Point := 0 to Length(ACode) do
     Parse;
 
-  InterpretFile := Output.Text;
+  InterpretFile := (Output.Text);
 end;
 
-function InterpretFile(AFilePath: string; AInputHandler: TInputHandler; AOutputHandler: TOutputHandler = nil; AWipeLastData : boolean = true): string;
+function InterpretFile(AFilePath: string; AInputHandler: TInputHandler; AOutputHandler: TOutputHandler = nil; AWipeLastData : boolean = true): {$ifdef Mode16}widestring{$else}string{$endif};
 var
   Target    : TextFile;
   Character : char;
@@ -154,7 +155,7 @@ begin
     Parse;
 
   if AOutputHandler = nil then
-    InterpretFile := Output.Text;
+    InterpretFile := (Output.Text);
 end;
 
 end.

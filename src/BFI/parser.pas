@@ -20,7 +20,11 @@ type
   TArraySize      = 0..10000;     // 2 bytes
 
   TInputHandler   = function():string;
+  {$ifdef Mode16}
+  TOutputHandler  = procedure(Output: widechar);
+  {$else}
   TOutputHandler  = procedure(Output: char);
+  {$endif}
 
   TCharArray    = record
     {$ifdef Mode16}
