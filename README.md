@@ -1,5 +1,5 @@
 # BFI4Pascal
-### BFI4P is a simple brain f*ck interpreter for Pascal,that can be used in Turbo Pascal, Objpas(FPC) and Delphi.
+### BFI4P is a simple brain f*ck interpreter for Pascal,that can be used in both Objpas(FPC) and Delphi.
 
 
 ![version](https://badgen.net/badge/version/1.0.7/red?style=flat-square)<br />
@@ -32,8 +32,11 @@ end.
 | Define | Usage |
 | ------ | ------ |
 | Mode16 | Using Sequence of 1-4 bytes for each Character Instead of Using 8 bits Characters(ASCII -> UTF8). |
-| Optimization | By Passing some Branches to Optimize the Speed around 10-25 Percents.(Different in 8/16 bits Modes) | 
+| Optimization | By Passing some Branches to Speedup the Interpreter around 10-25 Percents.(Different in 8/16 bits Modes) | 
 | Debug | For Debugging.|
+
+#### Note
+- There is no need to Define Mode16 in GUI Applications. 
 
 ## License
 - This "Software" is Licensed Under `MIT No Attribution License (MIT-0)`.
