@@ -15,9 +15,9 @@ implementation
 
 procedure InitializeData;
 begin
-  Memory        := Default(TCharArray);
-  Input         := Default(TCharArray);
-  Output        := Default(TCharArray);
+  Memory        := Default(TCharRec);
+  Input         := Default(TCharRec);
+  Output        := Default(TCharRec);
   LoopLastPos   := Default(TIntegerArray);
   MemoryCounter := 0;
   InputCounter  := 0;

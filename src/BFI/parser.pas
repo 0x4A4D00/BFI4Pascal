@@ -26,9 +26,9 @@ type
   TOutputHandler  = procedure(Output: char);
   {$endif}
 
-  TCharArray    = record
+  TCharRec    = record
     {$ifdef Mode16}
-    Text   : array[TArraySize] of WideChar;
+    Text   : array[TArraySize] of widechar;
     {$else}
     Text   : array[TArraySize] of char;
     {$endif}
@@ -38,16 +38,16 @@ type
   TIntegerArray = array[TArraySize] of integer;
 
 var
-  Memory        ,
-  Input         ,
-  Output        ,
-  Code          : TCharArray;
+  Memory        : TCharRec;
+  Input         : TCharRec;
+  Output        : TCharRec;
+  Code          : TCharRec;
 
   LoopLastPos   : TIntegerArray;
 
-  Point         ,
-  MemoryCounter ,
-  InputCounter  ,
+  Point         : TArraySize;
+  MemoryCounter : TArraySize;
+  InputCounter  : TArraySize;
   LoopCounter   : TArraySize;
 
   InputHandler  : TInputHandler;
