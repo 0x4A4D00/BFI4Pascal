@@ -3,8 +3,6 @@
 
 
 ![version](https://badgen.net/badge/version/1.0.7/red?style=flat-square)<br />
-![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/0x4A4D00/BFI4Pascal?style=flat-square)<br />
-![Github lines of code](https://badgen.net/badge/total%20lines/399/green?style=flat-square) <br />
 [![license](https://badgen.net/badge/license/MIT-0/477?style=flat-square)](https://github.com/0x4A4D00/BFI4Pascal/blob/main/LICENSE)
 
 ## Usage
