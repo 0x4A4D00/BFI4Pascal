@@ -1,5 +1,5 @@
 # BFI4Pascal
-### BFI4P is a simple brain f*ck interpreter for Pascal,that can be used in both Objpas(FPC) and Delphi.
+### BFI4P is a simple brain fuck interpreter for freepascal.
 
 
 ![version](https://badgen.net/badge/version/1.0.7/red?style=flat-square)<br />
